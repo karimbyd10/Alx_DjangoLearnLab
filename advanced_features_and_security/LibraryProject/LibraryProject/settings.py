@@ -24,8 +24,23 @@ SECRET_KEY = 'django-insecure-fp9zsb+6^3vj_w(k+o#gr)2kq(i%a2f_t6y^%sg^1qh$1@y2*b
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# ==============================
+# HTTPS & Security Settings
+# ==============================
 
-ALLOWED_HOSTS = []
+SECURE_SSL_REDIRECT = True
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+
 
 
 # Application definition
@@ -113,5 +128,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
 
