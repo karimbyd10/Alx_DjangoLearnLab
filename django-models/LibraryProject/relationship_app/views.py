@@ -40,7 +40,6 @@ class Librarian(models.Model):
         ('Librarian', 'Librarian'),
         ('Member', 'Member'),
     ]
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
@@ -53,7 +52,7 @@ class Librarian(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance, role='Member')  # default roleA
-   
+
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -84,7 +83,7 @@ def add_book(request):
             form.save()
             return redirect('list_books')
     else:
-        form = BookForm()
+  form = BookForm()
     return render(request, 'relationship_app/add_book.html', {'form': form})
 
 
@@ -110,5 +109,30 @@ def delete_book(request, pk):
         book.delete()
         return redirect('list_books')
     return render(request, 'relationship_app/delete_book.html', {'book': book})
+from django.shortcuts import render
+from django.contrib.auth.decorators import user_passes_test
 
+def is_member(user):
+    return user.groups.filter(name='Member').exists()
+
+def is_librarian(user):
+    return user.groups.filter(name='Librarian').exists()
+
+def is_admin(user):
+    return user.is_superuser
+
+
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
+
+
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
 
