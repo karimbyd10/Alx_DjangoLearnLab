@@ -47,4 +47,13 @@ def article_delete(request, pk):
         return redirect('article_list')
 
     return render(request, 'articles/article_confirm_delete.html', {'article': article})
+from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
+from .models import Book
+
+
+@permission_required('bookshelf.can_view', raise_exception=True)
+def book_list(request):
+    books = Book.objects.all()  # REQUIRED variable name
+    return render(request, 'bookshelf/book_list.html', {'books': books})
 
