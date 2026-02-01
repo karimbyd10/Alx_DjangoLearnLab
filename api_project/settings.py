@@ -37,13 +37,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # default apps ...
+    'rest_framework',
+    'rest_framework.authtoken',  # Add this
+    'api',
+]
+
+# DRF settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Token Auth
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Require authentication by default
+    ],
+}
+
     # Third-party apps
     'rest_framework',
     'rest_framework.authtoken',  # <-- Add this line
 
     # Local apps
     'api',
-]
+
 
 # HTTPS & security
 SECURE_SSL_REDIRECT = True
