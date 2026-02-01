@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # Add this
     'api',
 ]
+from django.conf import settings
+'rest_framework.authtoken' in settings.INSTALLED_APPS
 
 # DRF settings
 REST_FRAMEWORK = {
