@@ -33,4 +33,16 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+from rest_framework import viewsets, permissions
+from .models import Book
+from .serializers import BookSerializer
+
+class BookViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    # Require user to be authenticated
+    permission_classes = [permissions.IsAuthenticated]
+
+    # Optional: admin-only permissions
+    # permission_classes = [permissions.IsAdminUser]
 
