@@ -53,13 +53,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-    # Third-party apps
-    'rest_framework',
-    'rest_framework.authtoken',  # <-- Add this line
-
-    # Local apps
-    'api',
-
+   
 
 # HTTPS & security
 SECURE_SSL_REDIRECT = True
@@ -73,7 +67,7 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
-]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
