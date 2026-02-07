@@ -5,8 +5,11 @@ from .models import Author, Book
 
 class BookSerializer(serializers.ModelSerializer):
     """
-    Serializes Book model data.
-    Includes validation to prevent future publication years.
+    BookSerializer is responsible for converting Book model
+    instances into JSON and validating incoming data.
+
+    It serializes all fields of the Book model and includes
+    custom validation to ensure the publication year is valid.
     """
 
     class Meta:
@@ -15,9 +18,11 @@ class BookSerializer(serializers.ModelSerializer):
 
     def validate_publication_year(self, value):
         """
-        Ensures the publication year is not in the future.
+        Custom validation method to ensure that the
+        publication_year is not set in the future.
         """
-        if value > date.today().year:
+        current_year = date.today().year
+        if value > current_year:
             raise serializers.ValidationError(
                 "Publication year cannot be in the future."
             )
@@ -26,9 +31,11 @@ class BookSerializer(serializers.ModelSerializer):
 
 class AuthorSerializer(serializers.ModelSerializer):
     """
-    Serializes Author model data.
-    Uses a nested BookSerializer to represent
-    all books related to the author.
+    AuthorSerializer handles serialization of Author instances.
+
+    It includes a nested BookSerializer to dynamically
+    represent all books related to an author using
+    Django's reverse relationship.
     """
     books = BookSerializer(many=True, read_only=True)
 
