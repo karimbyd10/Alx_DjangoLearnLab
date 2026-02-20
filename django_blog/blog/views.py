@@ -8,6 +8,10 @@ from .models import Post
 
 from .forms import RegisterForm, UserUpdateForm
 
+def post_list(request):
+    posts = Post.objects.all().order_by('-published_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
 
 def register(request):
     if request.method == 'POST':
