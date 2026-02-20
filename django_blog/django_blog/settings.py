@@ -52,6 +52,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'django_blog.urls'
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES = [
