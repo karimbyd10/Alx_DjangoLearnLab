@@ -51,5 +51,10 @@ urlpatterns += [
 urlpatterns += [
     path('search/', PostSearchView.as_view(), name='post_search'),
     path('tags/<str:tag_name>/', PostByTagListView.as_view(), name='posts_by_tag'),
+    path(
+        'tags/<slug:tag_slug>/',
+        PostByTagListView.as_view(),
+        name='posts_by_tag'
+    ),
 
 ]
