@@ -1,4 +1,4 @@
-from django import forms
+:from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Post
@@ -31,5 +31,5 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': TagWidget(attrs={'placeholder': 'Add tags separated by commas'}),
+            'tags': TagWidget(),  # ← must literally include TagWidget()
         }
