@@ -22,6 +22,8 @@ from django.contrib.auth.mixins import (
 
 from .models import Post, Comment
 from .forms import CommentForm
+from django.db.models import Q
+
 def post_list(request):
     posts = Post.objects.all().order_by('-published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
@@ -131,3 +133,27 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         comment = self.get_object()
         return self.request.user == comment.author
+
+class PostSearchView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct()
+        return Post.objects.none()
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_tag.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag = self.kwargs.get('tag_name')
+        return Post.objects.filter(tags__name__iexact=tag)   
