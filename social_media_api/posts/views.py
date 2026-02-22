@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
@@ -35,3 +36,17 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = FeedPagination
+
+    def get_queryset(self):
+        # Get users the current user is following
+        following_users = self.request.user.following.all()
+
+        # Get posts from followed users ordered by newest first
+        return Post.objects.filter(
+            author__in=following_users
+        ).order_by("-created_at")
