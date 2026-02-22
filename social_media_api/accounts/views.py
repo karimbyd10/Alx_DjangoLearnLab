@@ -65,3 +65,49 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         request.user.following.remove(user_to_unfollow)
 
         return Response({"detail": "Successfully unfollowed user."})
+    
+    class FollowUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            user_to_follow = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response(
+                {"detail": "User not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if request.user == user_to_follow:
+            return Response(
+                {"detail": "You cannot follow yourself."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        request.user.following.add(user_to_follow)
+
+        return Response(
+            {"detail": "Successfully followed user."},
+            status=status.HTTP_200_OK
+        )
+
+
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            user_to_unfollow = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response(
+                {"detail": "User not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        request.user.following.remove(user_to_unfollow)
+
+        return Response(
+            {"detail": "Successfully unfollowed user."},
+            status=status.HTTP_200_OK
+        )
+    
