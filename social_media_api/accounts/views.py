@@ -66,7 +66,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
         return Response({"detail": "Successfully unfollowed user."})
     
-    class FollowUserView(generics.GenericAPIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
