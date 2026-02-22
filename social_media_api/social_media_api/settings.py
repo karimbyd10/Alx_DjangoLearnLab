@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',                         # ← Accounts app
     'django_filters',
     'posts',
+    'notifications'
 ]
 
 
